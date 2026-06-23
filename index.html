@@ -1,0 +1,329 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Más allá del Sueño — Tienda de objetos imposibles</title>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700;900&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:#0D0B1E;color:#EDE8FF;font-family:'Inter',sans-serif;min-height:100vh;overflow-x:hidden}
+#stars{position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:0}
+.star{position:absolute;border-radius:50%;background:#fff;animation:twinkle var(--d,3s) ease-in-out infinite var(--delay,0s)}
+@keyframes twinkle{0%,100%{opacity:.2;transform:scale(1)}50%{opacity:1;transform:scale(1.4)}}
+main{position:relative;z-index:1}
+
+/* HEADER */
+header{display:flex;justify-content:space-between;align-items:center;padding:20px 28px;border-bottom:1px solid #1e1a3a}
+.logo{font-family:'Cinzel',serif;font-size:14px;color:#EDE8FF;letter-spacing:.05em}
+.logo em{color:#F0C040;font-style:normal}
+.cart-icon{background:transparent;border:1px solid #2a2550;color:#9d97c4;padding:8px 16px;border-radius:20px;font-size:13px;cursor:pointer;font-family:'Inter',sans-serif;display:flex;align-items:center;gap:6px;transition:border-color .2s,color .2s}
+.cart-icon:hover{border-color:#7C3AED;color:#C084FC}
+#cart-count{background:#7C3AED;color:#fff;border-radius:50%;width:18px;height:18px;font-size:11px;display:inline-flex;align-items:center;justify-content:center;font-weight:500}
+
+/* HERO */
+.hero{text-align:center;padding:64px 24px 48px}
+.hero-eyebrow{font-family:'Inter',sans-serif;font-size:11px;letter-spacing:.25em;color:#7C3AED;text-transform:uppercase;margin-bottom:20px}
+.hero h1{font-family:'Cinzel',serif;font-size:clamp(2.2rem,6vw,4rem);font-weight:900;line-height:1.1;background:linear-gradient(135deg,#EDE8FF 0%,#F0C040 60%,#C084FC 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;margin-bottom:16px}
+.hero-sub{font-size:15px;color:#9d97c4;max-width:480px;margin:0 auto 40px;line-height:1.7;font-weight:300}
+.hero-badge{display:inline-flex;align-items:center;gap:8px;background:#1A1630;border:1px solid #7C3AED44;border-radius:40px;padding:8px 20px;font-size:13px;color:#C084FC}
+.hero-badge span{width:8px;height:8px;border-radius:50%;background:#7C3AED;box-shadow:0 0 8px #7C3AED;animation:pulse 2s ease-in-out infinite;flex-shrink:0}
+@keyframes pulse{0%,100%{box-shadow:0 0 8px #7C3AED}50%{box-shadow:0 0 20px #7C3AED,0 0 40px #7C3AED44}}
+
+/* FILTROS */
+.filters{display:flex;gap:8px;justify-content:center;flex-wrap:wrap;padding:0 24px 40px}
+.filter-btn{background:transparent;border:1px solid #2a2550;color:#9d97c4;padding:7px 18px;border-radius:20px;font-size:13px;cursor:pointer;font-family:'Inter',sans-serif;transition:all .2s}
+.filter-btn:hover,.filter-btn.active{background:#7C3AED22;border-color:#7C3AED;color:#C084FC}
+
+/* GRID */
+.catalog{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:20px;padding:0 24px 80px;max-width:1100px;margin:0 auto}
+
+/* CARD */
+.card{background:#1A1630;border:1px solid #2a2550;border-radius:16px;overflow:hidden;transition:transform .3s,border-color .3s,box-shadow .3s;cursor:pointer;position:relative}
+.card:hover{transform:translateY(-6px);border-color:#7C3AED88;box-shadow:0 20px 60px #7C3AED22}
+.card-img{width:100%;height:180px;display:flex;align-items:center;justify-content:center;font-size:72px;background:#120F28;position:relative;overflow:hidden}
+.card-img::after{content:'';position:absolute;inset:0;background:radial-gradient(ellipse at center,#7C3AED11 0%,transparent 70%)}
+.card-universe{position:absolute;top:12px;left:12px;background:#0D0B1ECC;backdrop-filter:blur(4px);border:1px solid #2a2550;border-radius:20px;padding:4px 12px;font-size:11px;color:#9d97c4;letter-spacing:.05em}
+.card-id{position:absolute;bottom:12px;right:12px;font-size:10px;color:#3a3560;font-family:'Inter',sans-serif}
+.card-body{padding:18px}
+.card-name{font-family:'Cinzel',serif;font-size:15px;font-weight:700;color:#EDE8FF;margin-bottom:6px;line-height:1.3}
+.card-desc{font-size:12px;color:#6d68a0;line-height:1.6;margin-bottom:16px;font-weight:300}
+.card-footer{display:flex;align-items:center;justify-content:space-between;gap:8px}
+.card-price{font-family:'Cinzel',serif;font-size:18px;color:#F0C040;font-weight:700}
+.card-price span{font-size:11px;font-weight:400;color:#9d97c4;font-family:'Inter',sans-serif}
+.card-stock{font-size:11px;color:#6d68a0;margin-top:2px}
+.card-stock.low{color:#F0C040}
+.add-btn{background:#7C3AED;border:none;color:#fff;padding:8px 16px;border-radius:8px;font-size:12px;cursor:pointer;font-family:'Inter',sans-serif;font-weight:500;transition:background .2s,transform .1s;white-space:nowrap;flex-shrink:0}
+.add-btn:hover{background:#6D28D9}
+.add-btn:active{transform:scale(.97)}
+
+/* CARRITO FLOTANTE */
+.cart-bar{position:fixed;bottom:24px;left:50%;transform:translateX(-50%);background:#1A1630;border:1px solid #7C3AED66;border-radius:40px;padding:12px 28px;display:flex;align-items:center;gap:16px;z-index:100;transition:opacity .3s,transform .3s;box-shadow:0 8px 40px #7C3AED33}
+.cart-bar.hidden{opacity:0;transform:translateX(-50%) translateY(20px);pointer-events:none}
+.cart-info{font-size:13px;color:#C084FC}
+.cart-info strong{color:#F0C040;font-family:'Cinzel',serif}
+.cart-clear{background:transparent;border:1px solid #2a2550;color:#6d68a0;padding:6px 14px;border-radius:20px;font-size:12px;cursor:pointer;font-family:'Inter',sans-serif;transition:all .2s}
+.cart-clear:hover{border-color:#C084FC;color:#C084FC}
+.checkout-btn{background:linear-gradient(135deg,#7C3AED,#C084FC);border:none;color:#fff;padding:8px 20px;border-radius:20px;font-size:13px;cursor:pointer;font-family:'Inter',sans-serif;font-weight:500}
+
+/* MODAL */
+.modal-overlay{position:fixed;inset:0;background:#0D0B1Ecc;z-index:200;display:flex;align-items:center;justify-content:center;padding:24px;opacity:0;pointer-events:none;transition:opacity .3s}
+.modal-overlay.open{opacity:1;pointer-events:all}
+.modal{background:#1A1630;border:1px solid #7C3AED44;border-radius:20px;max-width:440px;width:100%;padding:32px;position:relative}
+.modal-close{position:absolute;top:16px;right:16px;background:transparent;border:1px solid #2a2550;color:#6d68a0;width:32px;height:32px;border-radius:50%;cursor:pointer;font-size:16px;display:flex;align-items:center;justify-content:center;transition:border-color .2s,color .2s}
+.modal-close:hover{border-color:#C084FC;color:#C084FC}
+.modal-emoji{font-size:56px;margin-bottom:16px;display:block;text-align:center}
+.modal-title{font-family:'Cinzel',serif;font-size:20px;color:#EDE8FF;margin-bottom:8px;text-align:center;line-height:1.3}
+.modal-universe{text-align:center;font-size:12px;color:#7C3AED;letter-spacing:.1em;text-transform:uppercase;margin-bottom:16px}
+.modal-desc{font-size:14px;color:#9d97c4;line-height:1.7;margin-bottom:24px;text-align:center}
+.modal-footer{display:flex;align-items:center;justify-content:space-between;gap:12px}
+.modal-price{font-family:'Cinzel',serif;font-size:22px;color:#F0C040}
+.modal-price small{display:block;font-size:11px;color:#6d68a0;font-family:'Inter',sans-serif;font-weight:400}
+.modal-stock{font-size:12px;color:#6d68a0;text-align:center;margin-top:12px}
+.modal-stock.low{color:#F0C040}
+.modal-add{background:linear-gradient(135deg,#7C3AED,#C084FC);border:none;color:#fff;padding:10px 24px;border-radius:10px;font-size:14px;cursor:pointer;font-family:'Inter',sans-serif;font-weight:500;transition:opacity .2s}
+.modal-add:hover{opacity:.9}
+
+/* TOAST */
+.toast{position:fixed;top:24px;left:50%;transform:translateX(-50%) translateY(-80px);background:#1A1630;border:1px solid #7C3AED;border-radius:12px;padding:12px 24px;font-size:13px;color:#C084FC;z-index:300;transition:transform .35s cubic-bezier(.34,1.56,.64,1);white-space:nowrap}
+.toast.show{transform:translateX(-50%) translateY(0)}
+
+/* FOOTER */
+footer{text-align:center;padding:24px;border-top:1px solid #1e1a3a;font-size:12px;color:#3a3560;position:relative;z-index:1}
+
+@media(max-width:500px){
+  .cart-bar{flex-wrap:wrap;justify-content:center;border-radius:16px;bottom:12px;width:calc(100% - 24px)}
+  .hero h1{font-size:2rem}
+}
+</style>
+</head>
+<body>
+
+<div id="stars"></div>
+<div id="toast" class="toast"></div>
+
+<main>
+  <header>
+    <div class="logo">Más allá <em>del Sueño</em></div>
+    <button class="cart-icon" onclick="toggleCart()">
+      🛒 Carrito <span id="cart-count">0</span>
+    </button>
+  </header>
+
+  <section class="hero">
+    <p class="hero-eyebrow">Tienda de objetos imposibles</p>
+    <h1>Lo que siempre soñaste<br>tener, existe aquí</h1>
+    <p class="hero-sub">Artefactos legendarios, reliquias de otros universos y tesoros que la realidad no supo conservar. Todos a tu alcance.</p>
+    <div class="hero-badge"><span></span>Portal abierto · Envío a cualquier dimensión</div>
+  </section>
+
+  <div class="filters">
+    <button class="filter-btn active" onclick="filterBy('todos',this)">Todos</button>
+    <button class="filter-btn" onclick="filterBy('Historia real',this)">Historia real</button>
+    <button class="filter-btn" onclick="filterBy('Ficción',this)">Ficción</button>
+    <button class="filter-btn" onclick="filterBy('Anime',this)">Anime</button>
+  </div>
+
+  <div class="catalog" id="catalog"></div>
+</main>
+
+<div class="cart-bar hidden" id="cart-bar">
+  <div class="cart-info"><strong id="cart-items">0</strong> artículo(s) · $<strong id="cart-total">0</strong> ARS</div>
+  <button class="cart-clear" onclick="clearCart()">Vaciar</button>
+  <button class="checkout-btn" onclick="checkout()">Comprar ✨</button>
+</div>
+
+<div class="modal-overlay" id="modal" onclick="closeModalOutside(event)">
+  <div class="modal">
+    <button class="modal-close" onclick="closeModal()">✕</button>
+    <span class="modal-emoji" id="m-emoji"></span>
+    <h2 class="modal-title" id="m-name"></h2>
+    <p class="modal-universe" id="m-universe"></p>
+    <p class="modal-desc" id="m-desc"></p>
+    <div class="modal-footer">
+      <div class="modal-price" id="m-price"></div>
+      <button class="modal-add" id="m-add-btn">Agregar al carrito</button>
+    </div>
+    <p class="modal-stock" id="m-stock"></p>
+  </div>
+</div>
+
+<footer>Más allá del Sueño · Todos los objetos son imposibles · Ningún reembolso en otras dimensiones</footer>
+
+<script>
+const productos = [
+  {
+    id_articulo: 1,
+    nombre: "Bitcoin — Enero 2010",
+    descripcion: "1 Bitcoin minado en enero de 2010, cuando valía $0,008. Incluye wallet original con clave privada grabada en placa de titanio y certificado de autenticidad firmado por Satoshi Nakamoto.",
+    universo_origen: "Historia real",
+    precio: 2750000000,
+    stock: 3,
+    imagen_url: "₿"
+  },
+  {
+    id_articulo: 2,
+    nombre: "Ticket Dorado — Wonka",
+    descripcion: "El quinto y último boleto dorado de la fábrica de Willy Wonka. Hallado entre los envoltorios de una caja de Wonka de 1971. Acceso vitalicio a la fábrica de chocolate más famosa de la ficción.",
+    universo_origen: "Ficción",
+    precio: 4999999,
+    stock: 1,
+    imagen_url: "🎫"
+  },
+  {
+    id_articulo: 3,
+    nombre: "Guantelete del Infinito",
+    descripcion: "Forjado en Nidavellir por el mismísimo Eitri. Contiene las seis Gemas del Infinito originales. Advertencia: puede alterar la realidad, el tiempo y el espacio. No apto para uso irresponsable.",
+    universo_origen: "Ficción",
+    precio: 999999999,
+    stock: 1,
+    imagen_url: "🧤"
+  },
+  {
+    id_articulo: 4,
+    nombre: "Esfera del Dragón ✦✦✦✦",
+    descripcion: "La cuarta esfera de dragón de las siete originales de Kami. Al reunir las siete, invocás a Shenlong para pedir cualquier deseo. Esta ya viene con tres deseos cargados. Extremadamente rara.",
+    universo_origen: "Anime",
+    precio: 8500000,
+    stock: 2,
+    imagen_url: "🔮"
+  },
+  {
+    id_articulo: 5,
+    nombre: "Espada Excalibur",
+    descripcion: "Extraída de la piedra por el rey Arturo en el año 516. Hoja de acero de Avalon que nunca pierde filo. Quien la empuña recibe el derecho divino de gobernar Britania.",
+    universo_origen: "Historia real",
+    precio: 75000000,
+    stock: 1,
+    imagen_url: "⚔️"
+  },
+  {
+    id_articulo: 6,
+    nombre: "Mapa del Tesoro de Barba Negra",
+    descripcion: "Mapa original de Edward Teach, alias Barba Negra. Indica la ubicación exacta de 400 baúles de oro enterrados en una isla del Caribe. Coordenadas verificadas por tres piratas testigos.",
+    universo_origen: "Historia real",
+    precio: 12000000,
+    stock: 5,
+    imagen_url: "🗺️"
+  }
+];
+
+let carrito = [];
+let filtroActual = 'todos';
+
+function formatPrice(n) {
+  return n.toLocaleString('es-AR');
+}
+
+function renderCatalog(filtro) {
+  const cat = document.getElementById('catalog');
+  const lista = filtro === 'todos' ? productos : productos.filter(p => p.universo_origen === filtro);
+  cat.innerHTML = lista.map(p => `
+    <div class="card" onclick="openModal(${p.id_articulo})">
+      <div class="card-img">
+        <span>${p.imagen_url}</span>
+        <div class="card-universe">${p.universo_origen}</div>
+        <div class="card-id">#${String(p.id_articulo).padStart(4,'0')}</div>
+      </div>
+      <div class="card-body">
+        <div class="card-name">${p.nombre}</div>
+        <div class="card-desc">${p.descripcion.slice(0,90)}…</div>
+        <div class="card-footer">
+          <div>
+            <div class="card-price">$${formatPrice(p.precio)} <span>ARS</span></div>
+            <div class="card-stock ${p.stock <= 2 ? 'low' : ''}">
+              ${p.stock <= 2 ? '¡Últimas ' + p.stock + ' unidades!' : 'Stock: ' + p.stock}
+            </div>
+          </div>
+          <button class="add-btn" onclick="event.stopPropagation(); addToCart(${p.id_articulo})">+ Agregar</button>
+        </div>
+      </div>
+    </div>
+  `).join('');
+}
+
+function filterBy(filtro, btn) {
+  filtroActual = filtro;
+  document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  renderCatalog(filtro);
+}
+
+function openModal(id) {
+  const p = productos.find(x => x.id_articulo === id);
+  document.getElementById('m-emoji').textContent = p.imagen_url;
+  document.getElementById('m-name').textContent = p.nombre;
+  document.getElementById('m-universe').textContent = p.universo_origen;
+  document.getElementById('m-desc').textContent = p.descripcion;
+  document.getElementById('m-price').innerHTML = `$${formatPrice(p.precio)}<small>pesos argentinos</small>`;
+  document.getElementById('m-stock').textContent = p.stock <= 2 ? '⚠️ ¡Solo quedan ' + p.stock + ' unidades!' : 'Stock disponible: ' + p.stock;
+  document.getElementById('m-stock').className = 'modal-stock' + (p.stock <= 2 ? ' low' : '');
+  document.getElementById('m-add-btn').onclick = () => { addToCart(p.id_articulo); closeModal(); };
+  document.getElementById('modal').classList.add('open');
+}
+
+function closeModal() {
+  document.getElementById('modal').classList.remove('open');
+}
+
+function closeModalOutside(e) {
+  if (e.target === document.getElementById('modal')) closeModal();
+}
+
+function addToCart(id) {
+  const p = productos.find(x => x.id_articulo === id);
+  const existing = carrito.find(x => x.id_articulo === id);
+  if (existing) existing.qty++;
+  else carrito.push({ ...p, qty: 1 });
+  updateCart();
+  showToast(p.imagen_url + ' "' + p.nombre.slice(0, 22) + '…" agregado al carrito');
+}
+
+function updateCart() {
+  const total = carrito.reduce((s, x) => s + x.precio * x.qty, 0);
+  const items = carrito.reduce((s, x) => s + x.qty, 0);
+  document.getElementById('cart-count').textContent = items;
+  document.getElementById('cart-items').textContent = items;
+  document.getElementById('cart-total').textContent = formatPrice(total);
+  document.getElementById('cart-bar').classList.toggle('hidden', items === 0);
+}
+
+function clearCart() {
+  carrito = [];
+  updateCart();
+  showToast('🗑️ Carrito vaciado');
+}
+
+function toggleCart() {
+  const items = carrito.reduce((s, x) => s + x.qty, 0);
+  if (items === 0) showToast('Tu carrito está vacío');
+  else showToast('🛒 ' + items + ' artículo(s) en tu carrito');
+}
+
+function checkout() {
+  showToast('✨ ¡Procesando tu compra interdimensional!');
+}
+
+function showToast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), 2800);
+}
+
+function makeStars() {
+  const c = document.getElementById('stars');
+  for (let i = 0; i < 120; i++) {
+    const s = document.createElement('div');
+    s.className = 'star';
+    const size = Math.random() * 2 + 1;
+    s.style.cssText = `width:${size}px;height:${size}px;top:${Math.random()*100}%;left:${Math.random()*100}%;--d:${2+Math.random()*4}s;--delay:${Math.random()*5}s;opacity:${Math.random()*.5+.1}`;
+    c.appendChild(s);
+  }
+}
+
+makeStars();
+renderCatalog('todos');
+</script>
+</body>
+</html>
